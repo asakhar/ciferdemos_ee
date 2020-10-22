@@ -3,16 +3,13 @@
 #include <iostream>
 #include <locale>
 #include <nana/gui.hpp>
-#include <nana/gui/filebox.hpp>
-#include <nana/gui/msgbox.hpp>
 #include <nana/gui/place.hpp>
 #include <nana/gui/widgets/button.hpp>
 #include <nana/gui/widgets/checkbox.hpp>
 #include <nana/gui/widgets/label.hpp>
-#include <nana/gui/widgets/menubar.hpp>
+// #include <nana/gui/widgets/menubar.hpp>
 #include <nana/gui/widgets/spinbox.hpp>
 #include <nana/gui/widgets/textbox.hpp>
-#include <set>
 #include <string>
 
 using namespace nana;
@@ -27,30 +24,13 @@ public:
       return;
     box.caption(m);
   }
-  void encode() {
+  void perform(int key, textbox &source, textbox &destination) {
     auto abc = abcbox.caption_wstring();
-    auto mes = message.caption_wstring();
+    auto mes = source.caption_wstring();
     std::wstring code;
     for (auto ch : mes) {
       if (abc.find(ch) != std::wstring::npos) {
-        auto res = (abc.find(ch) + key.to_int()) % abc.size();
-        code += abc[res];
-      } else
-        code += ch;
-    }
-
-    if (code == output.caption_wstring())
-      return;
-    output.caption(code);
-  }
-
-  void decode() {
-    auto abc = abcbox.caption_wstring();
-    auto mes = output.caption_wstring();
-    std::wstring code;
-    for (auto ch : mes) {
-      if (abc.find(ch) != std::wstring::npos) {
-        auto res = (static_cast<signed long>(abc.find(ch)) - key.to_int()) %
+        auto res = (static_cast<signed long>(abc.find(ch)) + key) %
                    static_cast<signed long>(abc.size());
         if (res < 0)
           res += abc.size();
@@ -58,10 +38,12 @@ public:
       } else
         code += ch;
     }
-    if (code == message.caption_wstring())
+    if (code == destination.caption_wstring())
       return;
-    message.caption(code);
+    destination.caption(code);
   }
+  void encode() { perform(key.to_int(), message, output); }
+  void decode() { perform(-key.to_int(), output, message); }
   void update(bool enc) {
     tolower(abcbox);
     tolower(message);
