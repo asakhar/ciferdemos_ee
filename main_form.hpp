@@ -10,9 +10,9 @@
 #include <string>
 #include <memory>
 
-using namespace nana;
+#include "caesar_demo/caesar_demo"
 
-class welcome_form : public form {
+class welcome_form : public nana::form {
 public:
   welcome_form();
 
@@ -90,8 +90,10 @@ private:
   // }
 
 private:
-  place place_;
-  button caesarButton, diffi_hellmanButton;
+  nana::place place_;
+  nana::button caesarButton, diffi_hellmanButton;
+  caesar_form caesarForm;
+  bool terminate = false;
   // menubar menubar_;
   // textbox textbox_;
 };

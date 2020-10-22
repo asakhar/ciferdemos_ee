@@ -1,5 +1,4 @@
-#include "caesar_demo/caesar_demo.hpp"
-#include "diffih_demo/diffih_demo"
+#include "diffih_demo/diffih_demo.hpp"
 #include "main_form.hpp"
 
 #include <iostream>
@@ -10,11 +9,21 @@ welcome_form::welcome_form() {
   caesarButton.caption("Caesar demo");
   diffi_hellmanButton.create(*this);
   diffi_hellmanButton.caption("Diffi-Hellman protocol demo");
-  caesarButton.events().click([this](const arg_click &arg) {
+
+  caesarForm.events().unload([this](nana::arg_unload const &arg) {
+    if (terminate)
+      return;
+    arg.cancel = true;
+    caesarForm.hide();
+    show();
+  });
+  caesarButton.events().click([this](const nana::arg_click &arg) {
     hide();
-    caesar_form caesarForm;
-    caesarForm.events().unload([this]() { show(); });
-    caesarForm.modality();
+    caesarForm.show();
+  });
+  events().unload([this]() {
+    terminate = 1;
+    caesarForm.close();
   });
   // menubar_.create(*this);
 
@@ -48,5 +57,5 @@ welcome_form::welcome_form() {
 int main() {
   welcome_form npform;
   npform.show();
-  exec();
+  nana::exec();
 }
