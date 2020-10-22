@@ -1,4 +1,5 @@
-#include <iostream>
+#pragma once
+
 #include <nana/gui.hpp>
 #include <nana/gui/filebox.hpp>
 #include <nana/gui/msgbox.hpp>
@@ -7,48 +8,13 @@
 #include <nana/gui/widgets/menubar.hpp>
 #include <nana/gui/widgets/textbox.hpp>
 #include <string>
+#include <memory>
 
 using namespace nana;
 
 class welcome_form : public form {
 public:
-  welcome_form() {
-    caption("Cifer Demos");
-    caesarButton.create(*this);
-    caesarButton.caption("Caesar demo");
-    diffi_hellmanButton.create(*this);
-    diffi_hellmanButton.caption("Diffi-Hellman protocol demo");
-    caesarButton.events().click([this](const arg_click &arg) {
-      hide();
-    });
-    // menubar_.create(*this);
-
-    // textbox_.create(*this);
-    // textbox_.borderless(true);
-    // API::effects_edge_nimbus(textbox_, effects::edge_nimbus::none);
-    // textbox_.enable_dropfiles(true);
-    // textbox_.events().mouse_dropfiles([this](const arg_dropfiles& arg)
-    // {
-    //     if (arg.files.size() && _m_ask_save())
-    //         textbox_.load(arg.files.at(0));
-    // });
-
-    // _m_make_menus();
-
-    place_.bind(*this);
-    place_.div("vert<caesarb><diffihb>");
-    place_["caesarb"] << caesarButton;
-    place_["diffihb"] << diffi_hellmanButton;
-
-    // place_.field("menubar") << menubar_;
-    // place_.field("textbox") << textbox_;
-    place_.collocate();
-
-    // events().unload([this](const arg_unload &arg) {
-    //   if (!_m_ask_save())
-    //     arg.cancel = true;
-    // });
-  }
+  welcome_form();
 
 private:
   // std::string _m_pick_file(bool is_open) const
