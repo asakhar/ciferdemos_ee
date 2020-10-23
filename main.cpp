@@ -1,4 +1,3 @@
-#include "diffih_demo/diffih_demo.hpp"
 #include "main_form.hpp"
 
 #include <iostream>
@@ -6,9 +5,9 @@
 welcome_form::welcome_form() {
   caption("Cifer Demos");
   caesarButton.create(*this);
-  caesarButton.caption("Caesar demo");
-  diffi_hellmanButton.create(*this);
-  diffi_hellmanButton.caption("Diffi-Hellman protocol demo");
+  caesarButton.caption("Caesar cifer demo");
+  diffie_hellmanButton.create(*this);
+  diffie_hellmanButton.caption("Diffie-Hellman protocol demo");
 
   caesarForm.events().unload([this](nana::arg_unload const &arg) {
     if (terminate)
@@ -17,13 +16,25 @@ welcome_form::welcome_form() {
     caesarForm.hide();
     show();
   });
+  diffieForm.events().unload([this](nana::arg_unload const &arg) {
+    if (terminate)
+      return;
+    arg.cancel = true;
+    diffieForm.hide();
+    show();
+  });
   caesarButton.events().click([this](const nana::arg_click &arg) {
     hide();
     caesarForm.show();
   });
+  diffie_hellmanButton.events().click([this](const nana::arg_click &arg) {
+    hide();
+    diffieForm.show();
+  });
   events().unload([this]() {
     terminate = 1;
     caesarForm.close();
+    diffieForm.close();
   });
   // menubar_.create(*this);
 
@@ -40,9 +51,9 @@ welcome_form::welcome_form() {
   // _m_make_menus();
 
   place_.bind(*this);
-  place_.div("vert<caesarb><diffihb>");
+  place_.div("vert<caesarb><diffieb>");
   place_["caesarb"] << caesarButton;
-  place_["diffihb"] << diffi_hellmanButton;
+  place_["diffieb"] << diffie_hellmanButton;
 
   // place_.field("menubar") << menubar_;
   // place_.field("textbox") << textbox_;

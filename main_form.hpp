@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "caesar_demo/caesar_demo"
+#include "diffie_demo/diffie_demo.hpp"
 
 class welcome_form : public nana::form {
 public:
@@ -91,8 +92,9 @@ private:
 
 private:
   nana::place place_;
-  nana::button caesarButton, diffi_hellmanButton;
+  nana::button caesarButton, diffie_hellmanButton;
   caesar_form caesarForm;
+  diffie_form diffieForm;
   bool terminate = false;
   // menubar menubar_;
   // textbox textbox_;
